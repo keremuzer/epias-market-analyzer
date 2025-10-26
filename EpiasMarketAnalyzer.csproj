@@ -96,15 +96,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Models\ContractInfo.cs" />
     <Compile Include="Models\TransactionHistoryItem.cs" />
     <Compile Include="Models\TransactionHistoryRequest.cs" />
     <Compile Include="Models\TransactionHistoryResponse.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\AuthService.cs" />
+    <Compile Include="Services\ContractNameParser.cs" />
+    <Compile Include="Services\DataProcessor.cs" />
     <Compile Include="Services\EpiasDataService.cs" />
     <Compile Include="Services\IAuthService.cs" />
     <Compile Include="Services\IEpiasDataService.cs" />
+    <Compile Include="Services\IDataProcessor.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
