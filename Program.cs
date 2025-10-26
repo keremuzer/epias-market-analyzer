@@ -11,6 +11,7 @@ namespace EpiasMarketAnalyzer
     {
         static async Task Main(string[] args)
         {
+            Console.WriteLine("  ___ ___ ___   _   ___   __  __          _       _       _             _                 \r\n | __| _ \\_ _| /_\\ / __| |  \\/  |__ _ _ _| |_____| |_    /_\\  _ _  __ _| |_  _ ______ _ _ \r\n | _||  _/| | / _ \\\\__ \\ | |\\/| / _` | '_| / / -_)  _|  / _ \\| ' \\/ _` | | || |_ / -_) '_|\r\n |___|_| |___/_/ \\_\\___/ |_|  |_\\__,_|_| |_\\_\\___|\\__| /_/ \\_\\_||_\\__,_|_|\\_, /__\\___|_|  \r\n                                                                          |__/            ");
             var configuration = LoadConfiguration();
             var appSettings = new AppSettings
             {
@@ -42,16 +43,31 @@ namespace EpiasMarketAnalyzer
                     targetDate = parsedDate.Date;
                 }
 
-                var transactions = await dataService.GetTransactionHistoryAsync(targetDate);
+                await QueryAndDisplayData(dataService, dataProcessor, targetDate);
 
-                if (transactions == null || transactions.Count == 0)
+                while (true)
                 {
-                    Console.WriteLine("No data found for the specified date.");
-                    return;
-                }
+                    Console.WriteLine("Options:");
+                    Console.WriteLine("[R] Refresh Data");
+                    Console.WriteLine("[Q] Quit");
+                    Console.Write("Enter your choice: ");
 
-                var contractInfos = dataProcessor.GroupAndCalculate(transactions);
-                PrintTable(contractInfos);
+                    var input = Console.ReadLine()?.Trim().ToUpper();
+
+                    if (input == "Q")
+                    {
+                        break;
+                    }
+                    else if (input == "R")
+                    {
+                        QueryAndDisplayData(dataService, dataProcessor, targetDate).Wait();
+                    }
+                    else
+                    {
+
+                        Console.WriteLine("Invalid option. Please try again.");
+                    }
+                }
             }
             catch (Exception ex)
             {
@@ -72,6 +88,23 @@ namespace EpiasMarketAnalyzer
                 .AddJsonFile("appsettings.json", optional: false, reloadOnChange: false);
 
             return builder.Build();
+        }
+
+        private static async Task QueryAndDisplayData(
+            EpiasDataService dataService,
+            DataProcessor dataProcessor,
+            DateTime targetDate)
+        {
+            var transactions = await dataService.GetTransactionHistoryAsync(targetDate);
+
+            if (transactions == null || transactions.Count == 0)
+            {
+                Console.WriteLine("No data found for the specified date.");
+                return;
+            }
+
+            var contractInfos = dataProcessor.GroupAndCalculate(transactions);
+            PrintTable(contractInfos);
         }
 
         private static void PrintTable(System.Collections.Generic.List<ContractInfo> contractInfos)
