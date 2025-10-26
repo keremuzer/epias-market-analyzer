@@ -47,13 +47,9 @@ namespace EpiasMarketAnalyzer.Services
 
                 var response = await _httpClient.SendAsync(request);
 
-                Console.WriteLine($"Status Code: {response.StatusCode}");
-
                 response.EnsureSuccessStatusCode();
-
                 var tgt = await response.Content.ReadAsStringAsync();
 
-                Console.WriteLine(tgt);
                 var cacheOptions = new MemoryCacheEntryOptions
                 {
                     AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(2)

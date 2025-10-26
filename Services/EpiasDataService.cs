@@ -32,7 +32,7 @@ namespace EpiasMarketAnalyzer.Services
 
         public async Task<List<TransactionHistoryItem>> GetTransactionHistoryAsync(DateTime date)
         {
-            Console.WriteLine($"→ Fetching transaction history for {date:yyyy-MM-dd}...");
+            Console.WriteLine($"Fetching transaction history for {date:yyyy-MM-dd}...");
 
             try
             {
@@ -53,8 +53,6 @@ namespace EpiasMarketAnalyzer.Services
                 );
 
                 var response = await _httpClient.SendAsync(request);
-
-                Console.WriteLine($"Status Code: {response.StatusCode}");
 
                 if (!response.IsSuccessStatusCode)
                 {
