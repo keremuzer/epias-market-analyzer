@@ -38,12 +38,13 @@ namespace EpiasMarketAnalyzer.Services
             Console.WriteLine("Requesting TGT from EPİAŞ...");
             try
             {
-                var url = $"{TGT_URL}?username={_username}&password={_password}";
+                var url = $"{TGT_URL}";
+                var body = $"username={_username}&password={_password}";
 
                 var request = new HttpRequestMessage(HttpMethod.Post, url);
 
                 request.Headers.Add("Accept", "text/plain");
-                request.Content = new StringContent("", Encoding.UTF8, "application/x-www-form-urlencoded");
+                request.Content = new StringContent(body, Encoding.UTF8, "application/x-www-form-urlencoded");
 
                 var response = await _httpClient.SendAsync(request);
 
