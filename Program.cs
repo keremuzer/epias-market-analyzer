@@ -60,7 +60,7 @@ namespace EpiasMarketAnalyzer
                     }
                     else if (input == "R")
                     {
-                        QueryAndDisplayData(dataService, dataProcessor, targetDate).Wait();
+                        await QueryAndDisplayData(dataService, dataProcessor, targetDate);
                     }
                     else
                     {
